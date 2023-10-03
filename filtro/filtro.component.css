@@ -1,0 +1,13 @@
+.div-filtro {
+  width: 330px;
+  z-index: 10;
+  position: fixed;
+  background-color: white;
+  border: 3px double red;
+  right: 0;
+  padding: 10px;
+  height: 80%;
+  border-radius: 10px;
+  top: 100px;
+  margin-right: 10px;
+}
