@@ -1,0 +1,25 @@
+<div style="padding: 20px; width: 100%;">
+  <div class="display-flex space-between">
+    <!-- <span (click)="GerarReportModel()" class="material-symbols-outlined pointer">
+      print
+    </span> -->
+    <!-- <app-filtro></app-filtro> -->
+  </div>
+  <table style="width: 100%; display: none" *ngIf="data?.length" mat-table [dataSource]="data" class="mat-elevation-z8">
+    <ng-container [matColumnDef]="column" *ngFor="let column of gridColumnsIds; let i = index">
+      <th mat-header-cell *matHeaderCellDef> {{gridColumnsHeaders[i]?.columnHeader}} </th>
+      <td mat-cell *matCellDef="let element">
+
+        <img *ngIf="column === 'avatar'" style="width: 40px;" [src]="element[column]">
+        <span *ngIf="gridColumnsHeaders[i].columnType==='text'">{{element[column]}}</span>
+        <span *ngIf="gridColumnsHeaders[i].columnType==='date'"> {{element[column]}}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="gridColumnsIds"></tr>
+    <tr mat-row *matRowDef="let row; columns: gridColumnsIds;"></tr>
+  </table>
+  <super-table  #tablePaginator [gridColumnsHeaders]="gridColumnsHeaders" [gridColumnsIds]="gridColumnsIds"
+    [tableData]="dataReport" [configPaginator]="configPaginator" (sendReport)="GerarReportModel()"
+    (paginator)="paginacao($event)"></super-table>
+</div>

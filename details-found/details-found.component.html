@@ -1,0 +1,50 @@
+<h2>Detalhes encontrados para o LOTE informado</h2>
+<mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="Id">
+    <mat-header-cell *matHeaderCellDef> Detalhe#</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.id }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="Material">
+    <mat-header-cell *matHeaderCellDef> Material</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element?.entradaItem.produto.name }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Lote">
+    <mat-header-cell *matHeaderCellDef> Lote</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.lote }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Vencimento">
+    <mat-header-cell *matHeaderCellDef> Vencimento</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.expirationAt | date : "dd/MM/yyyy" : "-03:00" }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Fornecedor">
+    <mat-header-cell *matHeaderCellDef> Fornecedor</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element?.entradaItem.entrada.fornecedor.nickname }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="CodigoFornecedor">
+    <mat-header-cell *matHeaderCellDef> Cód no Forn</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element?.entradaItem.produto.codigoFornecedor }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Acao">
+    <mat-header-cell *matHeaderCellDef> Ação</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-icon class="pointer" title="Editar" (click)="save(element)">
+        save</mat-icon
+      >
+    </mat-cell>
+  </ng-container>
+  <mat-header-row
+    *matHeaderRowDef="displayedColumns; sticky: true"
+  ></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

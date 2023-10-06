@@ -2,9 +2,8 @@
   <div>
     <p>
       <label class="w3-text-grey">Buscar por</label>
-      <input class="w3-input w3-border" type="text" required="">
+      <input class="w3-input w3-border" type="text" required="" />
     </p>
-
   </div>
   <app-filtro></app-filtro>
 
@@ -12,50 +11,161 @@
     print
   </span>
   <div>
-    <div class="display-flex flex-end" style="width: 500px;">
-      <button class="button font-12" (click)="jumpToFirst()"
-        [ngClass]="{'visibility-hidden' : configPaginator.firstPage == 1}"
-        title="Pular para  a primeira página">&#60;&#60;</button>
-      <button class="button font-12" (click)="jumpPrior()" [ngClass]="{'visibility-hidden' : currentPage > 1}"
-        title="Primeira anterior">&#60;</button>
-      <button *ngFor="let butt of pagesList; let i = index;" id="button{{i}}" (click)="clickPage(butt, i)"
-        class="button font-12" [ngClass]="butt == currentPage ? 'current-page' : ''">{{butt}}</button>
+    <div class="display-flex flex-end" style="width: 500px">
+      <button
+        class="button font-12"
+        (click)="jumpToFirst()"
+        [ngClass]="{ 'visibility-hidden': configPaginator.firstPage == 1 }"
+        title="Pular para  a primeira página"
+      >
+        &#60;&#60;
+      </button>
+      <button
+        class="button font-12"
+        (click)="jumpPrior()"
+        [ngClass]="{ 'visibility-hidden': currentPage > 1 }"
+        title="Primeira anterior"
+      >
+        &#60;
+      </button>
+      <button
+        *ngFor="let butt of pagesList; let i = index"
+        id="button{{ i }}"
+        (click)="clickPage(butt, i)"
+        class="button font-12"
+        [ngClass]="butt == currentPage ? 'current-page' : ''"
+      >
+        {{ butt }}
+      </button>
 
-      <button class="button font-12" (click)="jumpNext()"
-        [ngClass]="{'visibility-hidden' : currentPage == pagesNumbers.length}" title="Próxima página"
-        *ngIf="pagesNumbers.length > 5">&#62;</button>
+      <button
+        class="button font-12"
+        (click)="jumpNext()"
+        [ngClass]="{ 'visibility-hidden': currentPage == pagesNumbers.length }"
+        title="Próxima página"
+        *ngIf="pagesNumbers.length > 5"
+      >
+        &#62;
+      </button>
 
-      <button class="button font-12"
-        [ngClass]="{'visibility-hidden' : configPaginator.lastPage == configPaginator.totalPages}"
-        (click)="jumpToLast()" title="Pular para a última página"
-        *ngIf="pagesNumbers.length > 5 || currentPage < configPaginator.totalPages">&#62;&#62;</button>
-
+      <button
+        class="button font-12"
+        [ngClass]="{
+          'visibility-hidden':
+            configPaginator.lastPage == configPaginator.totalPages
+        }"
+        (click)="jumpToLast()"
+        title="Pular para a última página"
+        *ngIf="
+          pagesNumbers.length > 5 || currentPage < configPaginator.totalPages
+        "
+      >
+        &#62;&#62;
+      </button>
     </div>
     <div class="display-flex justify-content-end items-aligh-center font-10">
-      <button (click)="clickChangePageSize(-5)" title="-5 registros por página" *ngIf="configPaginator.pageSize > 5"
-        class="button">-</button>&nbsp;<button (click)="clickChangePageSize(+5)" title="+5 registros por página"
-        class="button">+</button>
-      {{configPaginator.pageSize}} p/ página | {{pagesNumbers.length }} páginas | {{configPaginator.totalLines}}
+      <button
+        (click)="clickChangePageSize(-5)"
+        title="-5 registros por página"
+        *ngIf="configPaginator.pageSize > 5"
+        class="button"
+      >
+        -</button
+      >&nbsp;<button
+        (click)="clickChangePageSize(+5)"
+        title="+5 registros por página"
+        class="button"
+      >
+        +
+      </button>
+      {{ configPaginator.pageSize }} p/ página |
+      {{ pagesNumbers.length }} páginas | {{ configPaginator.totalLines }}
       registros
-
     </div>
   </div>
-
 </div>
-<table style="width: 100%;" mat-table [dataSource]="filtredData" class="mat-elevation-z8">
-  <!-- <caption>{{tableTitle}}</caption> -->
-  <ng-container [matColumnDef]="column" *ngFor="let column of gridColumnsIds; let i = index">
-    <th class="th" mat-header-cell *matHeaderCellDef> {{gridColumnsHeaders[i]?.columnHeader}} </th>
-    <td class="td" mat-cell *matCellDef="let element">
 
-      <img *ngIf="column === 'avatar'" style="width: 40px;" [src]="element[column]">
-      <span *ngIf="gridColumnsHeaders[i].columnType==='text'">{{element[column]}}</span>
-      <span *ngIf="gridColumnsHeaders[i].columnType==='date'"> {{element[column]}}</span>
+<table
+  style="width: 100%"
+  mat-table
+  [dataSource]="filtredData"
+  class="mat-elevation-z8"
+>
+  <!-- <caption>{{tableTitle}}</caption> -->
+  <ng-container
+    [matColumnDef]="column"
+    *ngFor="let column of gridColumnsIds; let i = index"
+  >
+    <th class="th" mat-header-cell *matHeaderCellDef>
+      {{ gridColumnsHeaders[i].columnHeader }}
+    </th>
+    <td
+      class="td"
+      [style]="gridColumnsHeaders[i].columnStyle"
+      mat-cell
+      *matCellDef="let element"
+    >
+      <img
+        *ngIf="gridColumnsHeaders[i].columnName === 'avatar'"
+        style="width: 40px"
+        [src]="element?.avatar"
+      />
+      <span *ngIf="gridColumnsHeaders[i].columnType === 'text'">{{
+        element[gridColumnsHeaders[i].columnName]
+      }}</span>
+      <span *ngIf="gridColumnsHeaders[i].columnType === 'date'">
+        {{
+          element[gridColumnsHeaders[i].columnName] | date : "dd/MM/yyyy"
+        }}</span
+      >
+      <span *ngIf="gridColumnsHeaders[i].columnAnother"
+        ><br />{{ element[gridColumnsHeaders[i].columnAnother] }}</span
+      >
+
+      <div *ngIf="column === 'acao'">
+        <span
+          title="{{ opcao.text }} | id {{ opcao.id }} redirect {{
+            opcao.redirect
+          }}"
+          class="material-symbols-outlined pointer"
+          *ngFor="let opcao of menuOptions"
+          (click)="redirectTo(opcao, element, menuOptions, opcao.paramName)"
+        >
+          {{ opcao.icon }}
+        </span>
+        <!-- <button *ngFor="let opcao of menuOptions" mat-menu-item (click)="redirectTo(opcao.redirect, element)">
+          <mat-icon>{{opcao.icon}}</mat-icon>
+          <span>{{opcao.text}}</span>
+        </button> -->
+      </div>
+      <!--
+        <span class="material-symbols-outlined">
+        outgoing_mail
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu> -->
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="gridColumnsIds"></tr>
-  <tr mat-row *matRowDef="let row; columns: gridColumnsIds;"></tr>
+  <tr mat-row *matRowDef="let row; columns: gridColumnsIds"></tr>
 </table>
 
-<span *ngIf="tableData?.length == 0" style="color: blue; font-size: 16px;">Nenhuma informação disponível</span>
+<span *ngIf="tableData?.length == 0" style="color: blue; font-size: 16px"
+  >Nenhuma informação disponível</span
+>
