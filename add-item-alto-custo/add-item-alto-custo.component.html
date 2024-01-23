@@ -1,7 +1,84 @@
-<div class="example-container mat-elevation-z8 display-flex">
-  <p>Inclusão de novo item de alto custo</p>
-  <span (click)="dialogRef.close()" class="material-icons">
-    close
-    </span>
-</div>
+<div
+  class="example-container mat-elevation-z8 w-100 double-border"
+  style="margin: 10px; padding: 10px"
+>
+  <div class="display-flex space-between items-aligh-center">
+    <h3>Inclusão de itens de alto custo no procedimento {{ paramId }}</h3>
+    <span (click)="onClose()" class="material-icons pointer"> close </span>
+  </div>
+  <div class="display-flex w100" [formGroup]="formGroup">
+    <mat-form-field class="w15">
+      <input
+        matInput
+        type="text"
+        #codigoDetalhe
+        id="codigoDetalhe"
+        formControlName="materialCode"
+        (keyup)="buscaCodigoDetalhe($event, codigoDetalhe.value)"
+        placeholder="Código do Material"
+      />
+    </mat-form-field>
+    <div class="w1"></div>
+    <mat-form-field class="w15">
+      <input
+        matInput
+        type="text"
+        #lote
+        id="lote"
+        formControlName="lote"
+        placeholder="Lote do Material"
+      />
+    </mat-form-field>
+    <div class="w1"></div>
+    <mat-form-field class="w15">
+      <input
+        matInput
+        list="fornecedores"
+        (keyup)="fornecedoresAutocomplete($event)"
+        placeholder="Digite o nome do fornecedor"
+        (change)="onFornecedoresChange()"
+        formControlName="fornecedor"
+      />
+      <button
+        *ngIf="formGroup.value.fornecedor"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearFieldForm('fornecedor')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
 
+      <datalist id="fornecedores">
+        <option *ngFor="let item of fornecedoresList" [value]="item.nickname">
+          {{ item.nickname }}
+        </option>
+      </datalist>
+    </mat-form-field>
+
+    <div class="w1"></div>
+    <mat-form-field class="w15">
+      <input
+        matInput
+        type="text"
+        #comunicadoUso
+        id="comunicadoUso"
+        formControlName="comunicadoUso"
+        placeholder="C. de Uso"
+      />
+    </mat-form-field>
+    <div class="w1"></div>
+    <mat-form-field class="spacer">
+      <input
+        matInput
+        type="text"
+        #nomeMaterial
+        id="nomeMaterial"
+        formControlName="descricaoMaterial"
+        placeholder="Nome"
+      />
+    </mat-form-field>
+    <div class="w1"></div>
+    <span class="w1" (click)="save()" class="material-icons pointer"> save </span>
+  </div>
+</div>

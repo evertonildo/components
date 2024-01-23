@@ -9,6 +9,7 @@ export function cnpjMask(cnpj: string) {
       return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g, '\$1.\$2.\$3\/\$4\-\$5');
   } catch (error) {
       console.error('cnpjMask', error, cnpj);
+      return cnpj;
   }
 }
 
@@ -32,7 +33,7 @@ export function dateToString(Data: Date, padrao: string = '-'): string {
 
 }
 
-export function getBase64ImageFromURL(url): any {
+export function getBase64ImageFromURL(url: string): any {
   return new Promise((resolve, reject) => {
     var img = new Image();
     img.setAttribute("crossOrigin", "anonymous");
@@ -43,6 +44,7 @@ export function getBase64ImageFromURL(url): any {
       canvas.height = img.height;
 
       var ctx = canvas.getContext("2d");
+      if(ctx)
       ctx.drawImage(img, 0, 0);
 
       var dataURL = canvas.toDataURL("image/png");

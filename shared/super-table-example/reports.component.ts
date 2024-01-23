@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ModeloPdfMake } from "../reports/reports-base/modelo-pdfmake";
-import { getBase64ImageFromURL } from "../reports/reports-base/fdus";
+import { ModeloPdfMake } from "../../reports/reports-base/modelo-pdfmake";
+import { getBase64ImageFromURL } from "../../reports/reports-base/fdus";
 import { IReports } from "./IReports";
 import { User } from "./User";
 import { IPaginator, TablePaginationComponent } from "../super-table/table-pagination.component";
-import { isLocalhost } from "../shared/utils";
+import { isLocalhost } from "../utils";
 
 @Component({
   selector: "app-reports",
@@ -106,7 +106,7 @@ export class ReportsComponent implements OnInit {
       if (isLocalhost) console.info("dataReport", this.dataReport);
     }
     if (isLocalhost) console.groupEnd();
-    this.tablePaginator.filterData(this.dataReport);
+    //this.tablePaginator.filterData(this.dataReport);
   }
 
   selectedReport(report: any) {

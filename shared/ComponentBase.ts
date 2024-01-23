@@ -2,10 +2,49 @@ import { Observable } from "rxjs";
 import { OnInit, Directive, EventEmitter, Output, Input } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { FormGroup, Validators } from "@angular/forms";
+import {
+  IColumnHeader,
+  IMenuContexto,
+  IPaginator,
+} from "./super-table/table-pagination.component";
 
 @Directive()
 export class ComponentBase {
   datemask = [/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/];
+
+  public ColumnsIds: string[] = [];
+  public ColumnsHeaders: IColumnHeader[] = [];
+  public menuOptions: IMenuContexto[] = [];
+  public dataGrid: any[] = [];
+
+  private _postFiltro: IFiltro = {
+    pageNumber: 0,
+    pageSize: 10,
+    filterData: null
+  };
+  public get postFiltro(): IFiltro {
+    return this._postFiltro;
+  }
+  public set postFiltro(value: IFiltro) {
+    this._postFiltro = value;
+  }
+
+
+  public configPaginator: IPaginator = {
+    currentPageIndex: 0,
+    currentPage: 1,
+    pageSize: 5,
+    totalPages: 1,
+    pageButtonStyle: "",
+    totalLines: 5,
+    firstPage: 0,
+    lastPage: 0,
+    firtsRecord: 0,
+    lastRecord: 0,
+    reload: false,
+  };
+
+
 
   private _paramId!: number;
   public get paramId(): number {
@@ -54,6 +93,21 @@ export class ComponentBase {
     return atob(chave);
   }
 
+  totalPages() {
+    let x = Math.floor(
+      this.configPaginator.totalLines / this.configPaginator.pageSize
+    );
+    if (x < this.configPaginator.totalLines / this.configPaginator.pageSize)
+      x++;
+    this.configPaginator.totalPages = x;
+    this.configPaginator.lastPage =
+      this.configPaginator.firstPage +
+      (this.configPaginator.pageSize > x
+        ? x
+        : this.configPaginator.pageSize - 1);
+    console.log('totalPages', this.configPaginator);
+  }
+
   setValidators(item: any, field: string) {
     if (item) this.formGroup.controls[field].clearValidators();
     else this.formGroup.controls[field].setValidators([Validators.required]);
@@ -75,3 +129,9 @@ export class ComponentBase {
     return currentValue;
   }
 }
+
+export interface IFiltro {
+  pageNumber: number,
+  pageSize: number,
+  filterData: null
+};

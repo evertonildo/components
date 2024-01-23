@@ -20,6 +20,7 @@ export class DetailsFoundComponent extends ComponentBase implements OnInit {
     "Acao",
   ];
   records: any[] = [];
+
   constructor(
     public api: HealthService,
     public dialogRef: MatDialogRef<DetailsFoundComponent>,

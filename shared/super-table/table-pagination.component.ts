@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import Swal from "sweetalert2";
-import { isLocalhost } from "../shared/utils";
+import { isLocalhost } from "../utils";
 import { Router } from "@angular/router";
 
 @Component({
@@ -74,12 +74,13 @@ export class TablePaginationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.group("inicialização");
-    console.log("gridColumnsHeaders", this.gridColumnsHeaders);
-    console.log("gridColumnsIds", this.gridColumnsIds);
-    console.log("tableData", this.tableData);
-    console.log("configPaginator", this.configPaginator);
-    console.groupEnd();
+    //console.group("inicialização");
+    //console.log("gridColumnsHeaders", this.gridColumnsHeaders);
+    //console.log("gridColumnsIds", this.gridColumnsIds);
+    //console.log("tableData", this.tableData);
+    //console.log("configPaginator", this.configPaginator);
+    //console.groupEnd();
+
     this.pagesNumbers = this.getPagesNumbers();
     this.selectedPage = 1;
     this.resetPagesList();
@@ -321,6 +322,7 @@ export interface IPaginator {
   firtsRecord: number;
   lastRecord: number;
   reload: boolean;
+  filtro?: any;
 }
 
 export interface IMenuContexto {
@@ -331,6 +333,15 @@ export interface IMenuContexto {
     | "fingerprint"
     | "outgoing_mail"
     | "mail"
+    | "calendar_month"
+    | "format_list_bulleted"
+    | "link"
+    | "attach_money"
+    | "attachment"
+    | "person_search"
+    | "call_split"
+    | "delete"
+    | "clear"
     | "password"
     | "filter_alt"
     | "navigate_nest"
@@ -343,10 +354,12 @@ export interface IMenuContexto {
     | "insert_drive_file"
     | "insert_link"
     | "description"
+    | "cached"
     | "add_circle_outline"
     | "tune";
   text: string;
   click?: string;
+  class?:string;
 }
 
 export interface IColumnHeader {
